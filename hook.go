@@ -189,8 +189,7 @@ func (h *Hook) downloadAndInstallUnix(creds *credentials, ver string, lang strin
 	}
 
 	h.Log.Debug("Fetching updated OneAgent configuration from tenant... ")
-	configDir := filepath.Join(stager.BuildDir(), installDir)
-	if err := h.updateAgentConfig(creds, configDir, lang, ver); err != nil {
+	if err := h.updateAgentConfig(creds, stager.BuildDir(), lang, ver); err != nil {
 		if creds.SkipErrors {
 			h.Log.Warning("Error during agent config update, skipping it")
 			return nil
@@ -202,7 +201,7 @@ func (h *Hook) downloadAndInstallUnix(creds *credentials, ver string, lang strin
 
 	if h.getCredentials().EnableFIPS {
 		h.Log.Debug("Removing file 'dt_fips_disabled.flag' to enable FIPS mode...")
-		flagFilePath := filepath.Join(stager.BuildDir(), installDir, "agent/dt_fips_disabled.flag")
+		flagFilePath := filepath.Join(stager.BuildDir(), "agent/dt_fips_disabled.flag")
 		if err := os.Remove(flagFilePath); err != nil {
 			h.Log.Error("Error during fips flag file deletion: %s", err)
 			return err
