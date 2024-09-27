@@ -32,8 +32,8 @@ func (h *Hook) downloadAndInstall(creds *credentials, ver string, lang string, i
 
 	h.Log.BeginStep("Starting Dynatrace OneAgent installation")
 
-	h.Log.Info("Unzipping archive '%s' to '%s'", installerFilePath, filepath.Join(stager.BuildDir(), installDir))
-	if err := h.unzipArchive(installerFilePath, filepath.Join(stager.BuildDir(), installDir)); err != nil {
+	h.Log.Info("Unzipping archive '%s' to '%s'", installerFilePath, installDir)
+	if err := h.unzipArchive(installerFilePath, installDir); err != nil {
 		h.Log.Error("Error during unzipping paas archive")
 		return err
 	}
@@ -42,7 +42,7 @@ func (h *Hook) downloadAndInstall(creds *credentials, ver string, lang string, i
 
 	// Post-installation setup...
 
-	agentLibPath, err := h.findAgentPath(filepath.Join(stager.BuildDir(), installDir), "oneagentproc.dll", "windows-x86-64")
+	agentLibPath, err := h.findAgentPath(installDir, "oneagentproc.dll", "windows-x86-64")
 	if err != nil {
 		h.Log.Error("Manifest handling failed!")
 		return err
@@ -51,7 +51,7 @@ func (h *Hook) downloadAndInstall(creds *credentials, ver string, lang string, i
 	// a windows path contains "\" instead of "/"
 	agentLibPath = strings.ReplaceAll(agentLibPath, "/", "\\")
 
-	agentBuilderLibPath := filepath.Join(stager.BuildDir(), installDir, agentLibPath)
+	agentBuilderLibPath := filepath.Join(installDir, agentLibPath)
 	if _, err = os.Stat(agentBuilderLibPath); os.IsNotExist(err) {
 		h.Log.Error("Agent library (%s) not found!", agentBuilderLibPath)
 		return err
