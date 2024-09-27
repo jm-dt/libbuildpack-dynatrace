@@ -19,6 +19,8 @@ func (h *Hook) downloadAndInstall(creds *credentials, ver string, lang string, i
 	installerFilePath := filepath.Join(os.TempDir(), "paasInstaller.zip")
 	url := h.getDownloadURL(creds, "windows", "paas")
 
+	h.Log.Info("%+v", stager)
+
 	h.Log.Info("Downloading '%s' to '%s'", url, installerFilePath)
 	if err := h.download(url, installerFilePath, ver, lang, creds); err != nil {
 		if creds.SkipErrors {
