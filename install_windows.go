@@ -80,8 +80,8 @@ func (h *Hook) setUpDotNetCorProfilerInjection(creds *credentials, ver string, l
 	scriptContent += "set DT_BLOCKLIST=powershell*\n"
 
 	// TODO why both?
-	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_32=C:\\Users\\vcap\\app\\%s\n", agentLibPath)
-	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_64=C:\\Users\\vcap\\app\\%s\n", agentLibPath)
+	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_32=%s\n", agentLibPath)
+	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_64=%s\n", agentLibPath)
 
 	if creds.NetworkZone != "" {
 		h.Log.Debug("Setting DT_NETWORK_ZONE...")
