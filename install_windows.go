@@ -91,7 +91,7 @@ func (h *Hook) setUpDotNetCorProfilerInjection(creds *credentials, ver string, l
 	scriptContent += "set\n"
 
 	h.Log.Debug("Preparing custom properties...")
-	scriptContent += fmt.Sprintf("set DT_CUSTOM_PROP=\"foo CloudFoundryBuildpackLanguage=%s CloudFoundryBuildpackVersion=%s\"\n", lang, ver)
+	scriptContent += fmt.Sprintf("set DT_CUSTOM_PROP=\"${DT_CUSTOM_PROP} CloudFoundryBuildpackLanguage=%s CloudFoundryBuildpackVersion=%s\"\n", lang, ver)
 
 	stager.WriteProfileD("dynatrace-env.cmd", scriptContent)
 
