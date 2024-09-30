@@ -78,6 +78,7 @@ func (h *Hook) setUpDotNetCorProfilerInjection(creds *credentials, ver string, l
 	scriptContent += "set COR_PROFILER={B7038F67-52FC-4DA2-AB02-969B3C1EDA03}\n"
 	scriptContent += "set DT_AGENTACTIVE=true\n"
 	scriptContent += "set DT_BLOCKLIST=powershell*\n"
+
 	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_32=C:\\Users\\vcap\\app\\%s\n", agentLibPath)
 	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_64=C:\\Users\\vcap\\app\\%s\n", agentLibPath)
 
@@ -87,8 +88,7 @@ func (h *Hook) setUpDotNetCorProfilerInjection(creds *credentials, ver string, l
 	}
 
 	h.Log.Debug("Preparing custom properties...")
-	scriptContent += fmt.Sprintf(
-		"\nset DT_CUSTOM_PROP=\"%DT_CUSTOM_PROP% CloudFoundryBuildpackLanguage=%s CloudFoundryBuildpackVersion=%s\"", lang, ver)
+	scriptContent += fmt.Sprintf("\nset DT_CUSTOM_PROP=\"%%DT_CUSTOM_PROP%% CloudFoundryBuildpackLanguage=%s CloudFoundryBuildpackVersion=%s\"", lang, ver)
 
 	stager.WriteProfileD("dynatrace-env.cmd", scriptContent)
 
