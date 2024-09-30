@@ -50,7 +50,7 @@ func (h *Hook) downloadAndInstall(creds *credentials, ver string, lang string, i
 	agentLibPath = strings.ReplaceAll(agentLibPath, "/", "\\")
 	agentLibPath = filepath.Join(installDir, agentLibPath)
 
-	agentLibPath = "dynatrace\\oneagent\\agent\\lib64\\oneagentloader.dll"
+	agentLibPath = "C:\\users\\vcap\\app\\dynatrace\\oneagent\\agent\\lib64\\oneagentloader.dll"
 
 	agentBuilderLibPath := filepath.Join(stager.BuildDir(), agentLibPath)
 	if _, err = os.Stat(agentBuilderLibPath); os.IsNotExist(err) {
@@ -80,7 +80,7 @@ func (h *Hook) setUpDotNetCorProfilerInjection(creds *credentials, ver string, l
 	scriptContent += "set DT_BLOCKLIST=powershell*\n"
 
 	// TODO why both?
-	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_32=%s\n", agentLibPath)
+	//scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_32=%s\n", agentLibPath)
 	scriptContent += fmt.Sprintf("set COR_PROFILER_PATH_64=%s\n", agentLibPath)
 
 	if creds.NetworkZone != "" {
